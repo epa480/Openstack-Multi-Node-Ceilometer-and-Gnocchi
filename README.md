@@ -205,6 +205,7 @@ $ . admin-openrc
    Open the file: 
    ```
    # geany /etc/apache2/sites-available/gnocchi-api.conf
+   # service apache2 restart
    ```   
    Replace the contents of the file with the github file [gnocchi-api.conf](https://github.com/pablobrunetti/Openstack-Multi-Node-Ceilometer-and-Gnocchi/blob/master/gnocchi-api.conf)
 6. Initialize Gnocchi:  
