@@ -1,11 +1,20 @@
 # Openstack-Multi-Node-Ceilometer-and-Gnocchi-Pike
 Installation and file configure of the installation Openstack Multi-node version Pike in Operational System Ubuntu.
 
-This guide install only module ceilometer with gnocchi. For others modules:
+This guide install only module ceilometer with gnocchi(controller service). For others modules:
 
 https://docs.openstack.org/install-guide/
 
-# Install and configure for Ubuntu
+For the compute service , install the official documentation. It's working @octocat :+1
+
+https://docs.openstack.org/ceilometer/pike/install/install-compute-ubuntu.html
+
+For other controller services(Cinder,Glance,Heat,Keystone,Neutron and Swift. It's working @octocat :+1
+
+https://docs.openstack.org/ceilometer/pike/install/
+
+
+# Install and configure for Ubuntu Controller Node
 
 ## Prerequisites
 Before you install and configure the Telemetry service, you must configure a target to send metering data to. The endpoint used is gnocchi.
@@ -125,6 +134,14 @@ $ . admin-openrc
 ```
 # apt-get install gnocchi-api gnocchi-metricd python-gnocchiclient
 ```
+   - # Package configuration (gnocchi common)
+Authentication server hostname:
+
+http://controllerdev:35357/v3/
+
+No configure automatically Keystone endpoint catalog
+
+No configure automatically Database 
        Note:Depending on your environment size, consider installing Gnocchi separately as it makes extensive use of the cpu.
 2. Create the database for Gnocchi’s indexer:
    - Use the database access client to connect to the database server as the **root** user:
@@ -144,34 +161,114 @@ $ . admin-openrc
    ```
    Replace **GNOCCHI_DBPASS** with a suitable password.
    - Exit the database access client.
+3. Edit the **/etc/gnocchi/gnocchi.conf** file and add Keystone options:  
+   - In the **[api]** section, configure gnocchi to use keystone:
+   ```
+   [api]
+   auth_mode = keystone
+   ```
+   - In the [keystone_authtoken] section, configure keystone authentication:
+   ```
+   [keystone_authtoken]
+   ...
+   auth_type = password
+   auth_url = http://controller:5000/v3
+   project_domain_name = Default
+   user_domain_name = Default
+   project_name = service
+   username = gnocchi
+   password = GNOCCHI_PASS
+   interface = internalURL
+   region_name = RegionOne
+   ``` 
+   Replace **GNOCCHI_PASS** with the password you chose for the gnocchi user in the Identity service.
+   - In the **[storage]** section, configure location to store metric data. In this case, we will store it to the local file system.       
+   See Gnocchi documenation for a list of more durable and performant drivers:
+   ```
+   [storage]
+   coordination_url = redis://controller:6379
+   file_basepath = /var/lib/gnocchi
+   driver = file
+   ```
+4. Change Permission directoty **/etc/gnocchi/ **:  
+   ```
+   # chmod 777 /etc/gnocchi/*
+   ```
+5. Alter configuration file apache2 **gnocchi-api.conf** :
+   This part was retired [StackOverFlow Page](https://stackoverflow.com/questions/45374863/devstackceilometergnocchi-error-403).
+   Open the file: 
+   ```
+   # geany /etc/apache2/sites-available/gnocchi-api.conf
+   ```   
+   Replace the contents of the file with the github file [gnocchi-api.conf](https://github.com/pablobrunetti/Openstack-Multi-Node-Ceilometer-and-Gnocchi/blob/master/gnocchi-api.conf)
+6. Initialize Gnocchi:  
+   ```
+   $ gnocchi-upgrade
+   ```
+## Finalize Gnocchi installation
+1. Restart the Gnocchi services:
+    ```
+    # service gnocchi-api restart
+    # service gnocchi-metricd restart
+    ```  
+## Install and configure components
+1. Install the ceilometer packages:
+    ```
+    # apt-get install ceilometer-agent-notification \
+      ceilometer-agent-central
+    ``` 
+2. Edit the **/etc/ceilometer/ceilometer.conf** file and complete the following actions:   
+   - Configure Gnocchi connection:
+     ```
+     [dispatcher_gnocchi]
+     # filter out Gnocchi-related activity meters (Swift driver)
+     filter_service_activity = False
+     # default metric storage archival policy
+     archive_policy = low
+     ```
+   - In the **[DEFAULT]** section, configure **RabbitMQ** message queue access:
+     ```
+     [DEFAULT]
+     ...
+     transport_url = rabbit://openstack:RABBIT_PASS@controller
+     ```
+     Replace **RABBIT_PASS** with the password you chose for the **openstack** account in **RabbitMQ**.
+   - In the **[service_credentials]** section, configure service credentials: 
+     ```
+     # ceilometer-upgrade --skip-metering-database
+     ```
+## Finalize installation
+1. Restart the Telemetry services:
+   ```
+   # service ceilometer-agent-central restart
+   # service ceilometer-agent-notification restart
+   ```
+##Testing Application [Verify](https://docs.openstack.org/ceilometer/pike/install/verify.html). 
 
+Run:
+``` 
+$ export OS_AUTH_TYPE=password 
+```
 
- 
+Test gnocchi with command: 
+``` 
+$ gnocchi metric list
+```
+A list of metrics will appear in bash
+   
+
 
        
 
 
 
 
-# Package configuration (gnocchi common)
-Authentication server hostname:
-
-http://controllerdev:35357/v3/
-
-No configure automatically Keystone endpoint catalog
-
-No configure automatically Database 
-
-# Permissions
-
-Alter permission folder /etc/gnocchi
-
-sudo chmod 777 /etc/gnocchi/*
 
 
-Configure /etc/apache2/sites-available/gnocchi-api.conf
 
-Tutorial in construction!!!!!!
+
+
+
 
 
 
