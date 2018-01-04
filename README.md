@@ -4,12 +4,13 @@ Installation and file configure of the installation Openstack Multi-node version
 This guide install only module ceilometer with gnocchi(controller service). For others modules:
 
 https://docs.openstack.org/install-guide/
+https://docs.openstack.org/install-guide/openstack-services.html#minimal-deployment
 
-For the compute service , install the official documentation. It's working @octocat :+1
+For the compute service , install the official documentation. It's working :+1:
 
 https://docs.openstack.org/ceilometer/pike/install/install-compute-ubuntu.html
 
-For other controller services(Cinder,Glance,Heat,Keystone,Neutron and Swift. It's working @octocat :+1
+For other controller services(Cinder,Glance,Heat,Keystone,Neutron and Swift. It's working :+1:
 
 https://docs.openstack.org/ceilometer/pike/install/
 
@@ -134,14 +135,19 @@ $ . admin-openrc
 ```
 # apt-get install gnocchi-api gnocchi-metricd python-gnocchiclient
 ```
-   - # Package configuration (gnocchi common)
-Authentication server hostname:
-
-http://controllerdev:35357/v3/
-
-No configure automatically Keystone endpoint catalog
-
-No configure automatically Database 
+   - Package configuration (gnocchi common)
+   
+       Setup a database for gnocchi:
+       - [ ] Yes
+       - [x] No
+       
+       Authentication server hostname:
+       - http://controller:35357/v3/
+       
+       Register Gnocchi in the Keystone endpoint catalog 
+       - [ ] Yes
+       - [x] No
+       
        Note:Depending on your environment size, consider installing Gnocchi separately as it makes extensive use of the cpu.
 2. Create the database for Gnocchi’s indexer:
    - Use the database access client to connect to the database server as the **root** user:
