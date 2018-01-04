@@ -223,7 +223,21 @@ $ . admin-openrc
     # apt-get install ceilometer-agent-notification \
       ceilometer-agent-central
     ``` 
-2. Edit the **/etc/ceilometer/ceilometer.conf** file and complete the following actions:   
+2. Install Redis and configure [Source](https://ask.openstack.org/en/question/111036/gnocchi-ceilometer-ubuntu-pike/
+)
+   - Install Redis Server and python-redis
+     ```
+     # sudo apt install redis-server
+     # sudo pip install redis
+     ```
+   - Edit **/etc/redis/redis.conf** file and complete action:
+     ``` 
+     bind controller
+     ```
+         Note: Delete line **bind 127.0.0.1** or alter with action above 
+   
+   
+3. Edit the **/etc/ceilometer/ceilometer.conf** file and complete the following actions:   
    - Configure Gnocchi connection:
      ```
      [dispatcher_gnocchi]
@@ -278,7 +292,4 @@ A list of metrics will appear in bash
 
 
 
-# Other bugs solved 
-
-https://ask.openstack.org/en/question/111036/gnocchi-ceilometer-ubuntu-pike/
 
