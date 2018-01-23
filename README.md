@@ -79,6 +79,12 @@ $ . admin-openrc
    $ openstack role add --project service --user gnocchi admin
    ```
           Note: This command provides no output.
+    
+   - Create the gnocchi service entity:
+   ```
+   $ openstack service create --name gnocchi \
+  --description "Metric Service" metric
+   ```
    - Create the Metric service API endpoints:
    ```
    $ openstack endpoint create --region RegionOne \
@@ -188,13 +194,21 @@ $ . admin-openrc
    region_name = RegionOne
    ``` 
    Replace **GNOCCHI_PASS** with the password you chose for the gnocchi user in the Identity service.
+   
+   - In the **[indexer]** section, configure database access:
+   ```
+   [indexer]
+   url = mysql+pymysql://gnocchi:GNOCCHI_DBPASS@controller/gnocchi
+   ```
+   Replace **GNOCCHI_PASS** with the password you chose for the gnocchi user in the Identity service.
+   
    - In the **[storage]** section, configure location to store metric data. In this case, we will store it to the local file system.       
    See Gnocchi documenation for a list of more durable and performant drivers:
    ```
    [storage]
-  coordination_url = file:///var/lib/gnocchi/locks
-  file_basepath = /var/lib/gnocchi
-  driver = file
+   coordination_url = file:///var/lib/gnocchi/locks
+   file_basepath = /var/lib/gnocchi
+   driver = file
    ```
 4. Change Permission directoty **/etc/gnocchi/ **:  
    ```
