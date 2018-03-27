@@ -279,8 +279,9 @@ $ gnocchi metric list
 A list of metrics will appear in bash
    
 
+## Enable Metrics Hardware gnocchi
 
-       
+https://ask.openstack.org/en/question/105993/how-to-enable-hardware-metrics-on-gnocchi/
 
 
 
