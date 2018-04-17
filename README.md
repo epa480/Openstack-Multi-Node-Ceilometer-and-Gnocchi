@@ -78,6 +78,7 @@ $ . admin-openrc
    ```
    $ openstack service create --name gnocchi \
    --description "Metric Service" metric
+   ```
    
       - Add the admin role to the gnocchi user.
    ```
@@ -85,7 +86,7 @@ $ . admin-openrc
    ```
           Note: This command provides no output.
     
-    ``` 
+   
    - Create the Metric service API endpoints:
    ```
    $ openstack endpoint create --region RegionOne \
