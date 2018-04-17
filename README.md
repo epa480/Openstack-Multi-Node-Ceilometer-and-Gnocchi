@@ -230,7 +230,6 @@ $ . admin-openrc
 ## Finalize Gnocchi installation
 1. Restart the Gnocchi services:
     ```
-    # service gnocchi-api restart
     # service gnocchi-metricd restart
     ```  
 ## Install and configure components
