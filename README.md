@@ -74,17 +74,18 @@ $ . admin-openrc
    | name      | gnocchi                          |
    +-----------+----------------------------------+
    ```
-   - Add the admin role to the gnocchi user.
-   ```
-   $ openstack role add --project service --user gnocchi admin
-   ```
-          Note: This command provides no output.
-    
    - Create the gnocchi service entity:
    ```
    $ openstack service create --name gnocchi \
    --description "Metric Service" metric
    
+      - Add the admin role to the gnocchi user.
+   ```
+   $ openstack role add --project service --user gnocchi admin
+   ```
+          Note: This command provides no output.
+    
+    ``` 
    - Create the Metric service API endpoints:
    ```
    $ openstack endpoint create --region RegionOne \
