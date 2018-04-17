@@ -211,6 +211,12 @@ $ . admin-openrc
    file_basepath = /var/lib/gnocchi
    driver = file
    ```
+   
+   - In the **[metricd]** section, configure metric_processing_delay:
+   ```
+   [metricd]
+   metric_processing_delay = 1
+   ```
 4. Change Permission directoty **/etc/gnocchi/ **:  
    ```
    # chmod 777 /etc/gnocchi/*
