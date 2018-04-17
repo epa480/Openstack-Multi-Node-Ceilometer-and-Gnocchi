@@ -279,6 +279,9 @@ $ . admin-openrc
      interface = internalURL
      region_name = RegionOne
      ```
+   - Copy the files in folder ceilometer (event_definitions.yaml,event_pipeline.yaml, gnocchi_resources.yaml, pipeline.yaml)
+   for the folder /etc/ceilometer/ of the installation Openstack. 
+   
    - Create Ceilometer resources in Gnocchi. Gnocchi should be running by this stage: 
      ```
      # ceilometer-upgrade --skip-metering-database
@@ -290,6 +293,12 @@ $ . admin-openrc
    # service ceilometer-agent-central restart
    # service ceilometer-agent-notification restart
    ```
+2. Check the log files
+   ```
+   # geany /var/log/ceilometer/ceilometer-agent-central.log 
+   # geany /var/log/ceilometer/ceilometer-agent-notification.log 
+   ```
+
 ##Testing Application [Verify](https://docs.openstack.org/ceilometer/pike/install/verify.html). 
 
 Run:
