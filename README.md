@@ -232,6 +232,10 @@ $ . admin-openrc
     ```
     # service gnocchi-metricd restart
     ```  
+2. Verify the log /var/log/gnocchi/gnocchi-metricd.log
+    ```
+    In case of permission error, execute command chmod 777 /directory 
+    ```
 ## Install and configure components
 1. Install the ceilometer packages:
     ```
