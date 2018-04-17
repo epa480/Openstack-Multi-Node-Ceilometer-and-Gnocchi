@@ -1,0 +1,9 @@
+---
+sources:
+    - name: some_pollsters
+      interval: 2
+      meters:
+        - cpu
+        - memory.usage
+        - network.incoming.bytes
+        - network.outgoing.bytes
