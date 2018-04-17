@@ -312,6 +312,14 @@ $ gnocchi metric list
 ```
 A list of metrics will appear in bash
    
+## Alter polling time 
+
+To alter the polling time replaced the file polling.yaml in the folder compute/ceilometer and restart the services in the compute nodes
+``` 
+# service ceilometer-agent-compute restart
+# service nova-compute restart
+```
+
 
 ## Enable Metrics Hardware gnocchi
 
