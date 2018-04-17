@@ -259,6 +259,7 @@ $ . admin-openrc
      Replace **RABBIT_PASS** with the password you chose for the **openstack** account in **RabbitMQ**.
    - In the **[service_credentials]** section, configure service credentials: 
      ```
+     [service_credentials]
      auth_type = password
      auth_url = http://controller:5000/v3
      project_domain_id = default
