@@ -248,19 +248,32 @@ $ . admin-openrc
      # filter out Gnocchi-related activity meters (Swift driver)
      filter_service_activity = False
      # default metric storage archival policy
-     archive_policy = low
+     archive_policy = high
      ```
    - In the **[DEFAULT]** section, configure **RabbitMQ** message queue access:
      ```
      [DEFAULT]
-     ...
+     
      transport_url = rabbit://openstack:RABBIT_PASS@controller
      ```
      Replace **RABBIT_PASS** with the password you chose for the **openstack** account in **RabbitMQ**.
    - In the **[service_credentials]** section, configure service credentials: 
      ```
+     auth_type = password
+     auth_url = http://controller:5000/v3
+     project_domain_id = default
+     user_domain_id = default
+     project_name = service
+     username = ceilometer
+     password = CEILOMETER_PASS
+     interface = internalURL
+     region_name = RegionOne
+     ```
+   - Create Ceilometer resources in Gnocchi. Gnocchi should be running by this stage: 
+     ```
      # ceilometer-upgrade --skip-metering-database
      ```
+     
 ## Finalize installation
 1. Restart the Telemetry services:
    ```
