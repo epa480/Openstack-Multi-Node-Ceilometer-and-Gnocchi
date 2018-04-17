@@ -184,7 +184,6 @@ $ . admin-openrc
    - In the [keystone_authtoken] section, configure keystone authentication:
    ```
    [keystone_authtoken]
-   ...
    auth_type = password
    auth_url = http://controller:5000/v3
    project_domain_name = Default
