@@ -83,8 +83,8 @@ $ . admin-openrc
    - Create the gnocchi service entity:
    ```
    $ openstack service create --name gnocchi \
-  --description "Metric Service" metric
-   ```
+   --description "Metric Service" metric
+   
    - Create the Metric service API endpoints:
    ```
    $ openstack endpoint create --region RegionOne \
